@@ -1,0 +1,107 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Author>
+
+@{
+    ViewBag.Title = "Authors";
+}
+
+<div class="well well-sm">
+    <h2>Authors</h2>
+</div>
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Address)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.HasContract)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearToDateSales)
+            </th>
+            <th>
+                Titles
+            </th>
+            <th>
+                Action
+            </th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    <address>
+                        @Html.DisplayFor(modelItem => item.Address)<br/>
+                        @Html.DisplayFor(modelItem => item.City), @Html.DisplayFor(modelItem => item.State) @Html.DisplayFor(modelItem => item.PostalCode)<br/>
+                        Phone: @Html.DisplayFor(modelItem => item.PhoneNumber)
+                    </address>
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.HasContract)
+                </td>
+                <td>
+                    @item.YearToDateSales.ToString("n0")
+                </td>
+                <td nowrap="nowrap">
+                    @if (item.Titles.Count > 0)
+                    {
+                        var titles = item.Titles.ToList();
+                        if (item.Titles.Count > 4)
+                        {
+                            string titleList = string.Empty;
+                            foreach (Pubs.Data.Models.Title title in titles)
+                            {
+                                titleList = titleList + string.Format("{0}<br/>", title.BookTitle);
+                            }
+                            <button class="btn btn-default btn-sm" data-content="@titleList" data-html="true" data-toggle="popover" data-trigger="focus" title="Titles">...</button>
+                        }
+                        else
+                        {
+                            foreach (Pubs.Data.Models.Title title in titles)
+                            {
+                                Write(title.BookTitle);
+                                <br/>
+                            }
+                        }
+                    }
+                </td>
+                <td nowrap="nowrap">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("Edit", "Author", new { id = item.AuthorID })"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="@Url.Action("Details", "Author", new { id = item.AuthorID })"><span class="glyphicon glyphicon-search"></span></a>
+                        <a href="@Url.Action("Delete", "Author", new { id = item.AuthorID })"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+<nav>
+    <ul class="pager">
+        <li class="@ViewBag.PreviousClass">@Html.ActionLink("Previous", "List", "Author", new { startRow = ViewBag.PreviousRow, numberOfRows = 5 }, new { })</li>
+        <li class="@ViewBag.NextClass">@Html.ActionLink("Next", "List", "Author", new { startRow = ViewBag.NextRow, numberOfRows = 5 }, new { })</li>
+    </ul>
+</nav>

@@ -1,0 +1,230 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Author>
+
+@{
+    ViewBag.Title = "Table";
+}
+
+<h2>Table</h2>
+
+<div class="row">
+    <div class="col-md-offset-9 col-md-3">
+        <div class="input-group">
+            <input id="txtSearchLastName" class="form-control" type="text" placeholder="Search by last name...">
+            <div class="input-group-btn">
+                <button id="btnSearchAuthor" class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                <button id="btnClearAuthor" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+            </div>
+        </div>
+    </div>
+</div>
+<p>
+    <div class="col-md-2">
+        @Html.ActionLink("Create New", "Create")
+    </div>
+    <div class="col-md-offset-8 col-md-2">
+        <a class="pull-right" data-toggle="collapse" href="#collapseExample" aria-expanded="false" aria-controls="collapseExample">Filter</a>
+    </div>
+</p>
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <thead>
+            <tr>
+                <th>@Html.DisplayNameFor(model => model.AuthorID)</th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Name)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Address)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.City)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.State)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.PostalCode)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.YearToDateSales)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.HasContract)
+                </th>
+            </tr>
+            <tr id="collapseExample" class="collapse">
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="txtAuthorID" class="form-control" />
+                        <div class="input-group-btn">
+                            <button id="btnSearchAuthorID" class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                            <button id="btnClearAuthorID" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="txtCity" class="form-control" />
+                        <div class="input-group-btn">
+                            <button id="btnSearchCity" class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                            <button id="btnClearCity" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                    </div>
+                </td>
+                <td>
+                    <div class="input-group">
+                        <input type="text" id="txtState" class="form-control" />
+                        <div class="input-group-btn">
+                            <button id="btnSearchState" class="btn btn-default" type="button"><i class="glyphicon glyphicon-search"></i></button>
+                            <button id="btnClearState" class="btn btn-default" type="button"><i class="glyphicon glyphicon-remove"></i></button>
+                        </div>
+                    </div>
+                </td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+                <td>&nbsp;</td>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var item in Model)
+            {
+                <tr>
+                    <td>@Html.DisplayFor(modelItem => item.AuthorID)</td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Name)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.Address)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.City)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.State)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.PostalCode)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.YearToDateSales)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => item.HasContract)
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+</div>
+<nav>
+    <ul class="pager">
+        <li class="@ViewBag.PreviousClass">
+            @if (ViewBag.PreviousClass.Contains("disabled"))
+            {
+                <a href="Javascript:void(0)">Previous</a>
+            }
+            else
+            {
+                @Html.ActionLink("Previous", "Table", "Author", new { lastName = ViewBag.LastName, startRow = ViewBag.PreviousRow, numberOfRows = 5 }, new { })
+            }
+        </li>
+        <li class="@ViewBag.NextClass">
+            @if (ViewBag.NextClass.Contains("disabled"))
+            {
+                <a href="Javascript:void(0)">Next</a>
+            }
+            else
+            {
+                @Html.ActionLink("Next", "Table", "Author", new { lastName = ViewBag.LastName, startRow = ViewBag.NextRow, numberOfRows = 5 }, new { })
+            }
+        </li>
+    </ul>
+</nav>
+@section Scripts {
+    <script src="~/Scripts/pubs-web.js"></script>
+    <script type="text/javascript">
+        //function searchAuthor(startRow) {
+        //    var redirectUrl = '/author/table/?lastName=';
+        //    var searchTerm = $('#txtSearchLastName').val();
+        //    var numberOfRows = 5;
+
+        //    redirectUrl = redirectUrl + searchTerm + '&startRow=' + startRow;
+        //    window.location = redirectUrl;
+        //}
+
+        //function searchAuthorID(startRow) {
+        //    var redirectUrl = '/author/table/?authorID=';
+        //    var searchTerm = $('#txtAuthorID').val();
+        //    var numberOfRows = 5;
+
+        //    redirectUrl = redirectUrl + searchTerm + '&startRow=' + startRow;
+        //    window.location = redirectUrl;
+        //}
+
+        $(document).ready(function () {
+            Pubs.Web.initAuthorTable('@ViewBag.LastName', '@ViewBag.AuthorID');
+            //$('#btnSearchAuthor').on('click', function (event) {
+            //    event.preventDefault(); // prevent button click from submitting the form
+            //    searchAuthor(1);
+            //});
+
+            @*$('#btnClearAuthor').on('click', function (event) {
+                event.preventDefault(); // prevent button click from submitting the form
+                $('#txtSearchLastName').val('');
+                searchAuthor(1);
+            });
+
+            $('#btnSearchAuthorID').on('click', function (event) {
+                event.preventDefault(); // prevent button click from submitting the form
+                searchAuthorID(1);
+            });
+
+            $('#btnClearAuthorID').on('click', function (event) {
+                event.preventDefault(); // prevent button click from submitting the form
+                $('#txtAuthorID').val('');
+                searchAuthorID(1);
+            });
+
+            var lastName = '@ViewBag.LastName';
+            if (lastName != '')
+            {
+                $('#txtSearchLastName').val(lastName);
+            }
+
+            var authorID = '@ViewBag.AuthorID';
+            if (authorID != '')
+            {
+                $('#txtAuthorID').val(authorID);
+                $('#collapseExample').collapse('show');
+            }*@
+        });
+    </script>
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+

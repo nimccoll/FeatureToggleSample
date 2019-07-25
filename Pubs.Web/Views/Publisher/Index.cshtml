@@ -1,0 +1,109 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Publisher>
+
+@{
+    ViewBag.Title = "Publishers";
+}
+
+<div class="well well-sm">
+    <h2>Publishers</h2>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Name)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.City)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.State)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Country)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearToDateSales)
+            </th>
+            <th>
+                Titles
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Name)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.City)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.State)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Country)
+                </td>
+                <td>
+                    @item.YearToDateSales.ToString("n0")
+                </td>
+                <td nowrap="nowrap">
+                    @if (item.Titles.Count > 0)
+                    {
+                        var titles = item.Titles.ToList();
+                        Write(titles[0].BookTitle);
+                        if (item.Titles.Count > 1)
+                        {
+                            string titleList = string.Empty;
+                            foreach (Pubs.Data.Models.Title title in titles)
+                            {
+                                titleList = titleList + string.Format("{0}<br/>", title.BookTitle);
+                            }
+                            <button class="btn btn-default btn-sm" data-content="@titleList" data-html="true" data-toggle="popover" data-trigger="focus" title="Titles">...</button>
+                        }
+                    }
+                </td>
+                <td nowrap="nowrap">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("Edit", "Publisher", new { id = item.PublisherID })"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="@Url.Action("Details", "Publisher", new { id = item.PublisherID })"><span class="glyphicon glyphicon-search"></span></a>
+                        <a href="@Url.Action("Delete", "Publisher", new { id = item.PublisherID })"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+@section Scripts {
+    <script language="javascript" type="text/javascript">
+        // Initialize application after all scripts are ready
+        $(document).ready(function ($) {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+}

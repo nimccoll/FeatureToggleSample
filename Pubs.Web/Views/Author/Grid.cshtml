@@ -1,0 +1,46 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Author>
+
+@{
+    ViewBag.Title = "Grid";
+}
+
+<h2>Grid</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+
+@{
+    WebGrid grid = new WebGrid(rowsPerPage:5);
+    grid.Bind(Model, autoSortAndPage: false, rowCount: ViewBag.TotalRows);
+}
+@grid.GetHtml(
+    tableStyle: "table table-bordered table-condensed table-striped",
+    mode: WebGridPagerModes.FirstLast | WebGridPagerModes.NextPrevious,
+    firstText: "<< First",
+    nextText: "Next >",
+    previousText: "< Previous",
+    lastText: "Last >>",
+    columns: new[] {
+        grid.Column("AuthorID", header: "Author ID"),
+        grid.Column("Name"),
+        grid.Column("Address", canSort: false),
+        grid.Column("City"),
+        grid.Column("State"),
+        grid.Column("PostalCode", header: "Zip", canSort: false),
+        grid.Column("YearToDateSales", header: "YTD Sales", canSort: false),
+        grid.Column("HasContract", header: "Has Contract?", format:@<text><input type="checkbox" checked="@item.HasContract" disabled="disabled" /></text>)
+    }
+)

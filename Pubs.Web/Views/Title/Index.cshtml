@@ -1,0 +1,123 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Title>
+
+@{
+    ViewBag.Title = "Titles";
+}
+
+<div class="well well-sm">
+    <h2>Titles</h2>
+</div>
+
+<p>
+    @Html.ActionLink("Create New", "Create", null, new { @class = "btn btn-primary" })
+</p>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Advance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Royalty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.YearToDateSales)
+            </th>
+            <th>
+                Author(s)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.PublishDate)
+            </th>
+            <th>Action</th>
+        </tr>
+
+        @foreach (var item in Model)
+        {
+            <tr>
+                <td>
+                    @Html.DisplayFor(modelItem => item.BookTitle)
+                </td>
+                <td>
+                    @Html.DisplayFor(modelItem => item.Type)
+                </td>
+                <td>
+                    @item.Price.ToString("c")
+                </td>
+                <td>
+                    @item.Advance.ToString("c")
+                </td>
+                <td>
+                    @item.Royalty.ToString("d")%
+                </td>
+                <td>
+                    @item.YearToDateSales.ToString("n0")
+                </td>
+                <td nowrap="nowrap">
+                    @if (item.Authors.Count > 0)
+                    {
+                        var authors = item.Authors.ToList();
+                        Write(authors[0].Name);
+                        if (item.Authors.Count > 1)
+                        {
+                            string authorList = string.Empty;
+                            foreach (Pubs.Data.Models.Author author in authors)
+                            {
+                                authorList = authorList + string.Format("{0}<br/>", author.Name);
+                            }
+                            <button class="btn btn-default btn-sm" data-content="@authorList" data-html="true" data-toggle="popover" data-trigger="focus" title="Authors">...</button>
+                        }
+                    }
+                </td>
+
+                <td>
+                    @item.PublishDate.ToShortDateString()
+                </td>
+                <td nowrap="nowrap">
+                    <div class="btn-group" role="group">
+                        <a href="@Url.Action("Edit", "Title", new { id = item.TitleID })"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <a href="@Url.Action("Details", "Title", new { id = item.TitleID })"><span class="glyphicon glyphicon-search"></span></a>
+                        <a href="@Url.Action("Delete", "Title", new { id = item.TitleID })"><span class="glyphicon glyphicon-remove"></span></a>
+                    </div>
+                </td>
+            </tr>
+        }
+
+    </table>
+</div>
+
+@section Scripts {
+    <script language="javascript" type="text/javascript">
+        // Initialize application after all scripts are ready
+        $(document).ready(function ($) {
+            $('[data-toggle="popover"]').popover();
+        });
+    </script>
+}

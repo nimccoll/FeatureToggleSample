@@ -1,0 +1,140 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model Pubs.Web.ViewModels.TitleEditViewModel
+
+@{
+    ViewBag.Title = "Titles";
+}
+
+<link rel="stylesheet" type="text/css" href="~/Content/themes/base/all.css" />
+<link rel="stylesheet" type="text/css" href="~/Content/themes/base/bootstrap-multiselect.css" />
+<div class="well well-sm">
+    <h2>Titles</h2>
+</div>
+
+@if (TempData["Message"] != null)
+{
+    <div class="alert alert-success">@TempData["Message"]</div>
+}
+
+@using (Html.BeginForm())
+{
+    @Html.AntiForgeryToken()
+
+<div class="table-responsive">
+    <table class="table table-bordered table-condensed table-striped">
+        <tr>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].BookTitle)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].Type)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].Price)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].Advance)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].Royalty)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].YearToDateSales)
+            </th>
+            <th>
+                Author(s)
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.Titles[0].PublishDate)
+            </th>
+        </tr>
+        @for (int i = 0; i < Model.Titles.Count; i++)
+        {
+            <tr>
+                <td>
+                    @Html.EditorFor(model => model.Titles[i].BookTitle)
+                    @Html.HiddenFor(model => model.Titles[i].TitleID)
+                    @Html.HiddenFor(model => model.Titles[i].Publisher.PublisherID)
+                    @Html.HiddenFor(model => model.Titles[i].Notes)
+                </td>
+                <td>
+                    @Html.EditorFor(model => model.Titles[i].Type)
+                </td>
+                <td>
+                    @Model.Titles[i].Price.ToString("c")
+                    @Html.HiddenFor(model => model.Titles[i].Price)
+                </td>
+                <td>
+                    @Model.Titles[i].Advance.ToString("c")
+                    @Html.HiddenFor(model => model.Titles[i].Advance)
+                </td>
+                <td>
+                    @Model.Titles[i].Royalty.ToString("d")%
+                    @Html.HiddenFor(model => model.Titles[i].Royalty)
+                </td>
+                <td>
+                    @Model.Titles[i].YearToDateSales.ToString("n0")
+                    @Html.HiddenFor(model => model.Titles[i].YearToDateSales)
+                </td>
+                <td>
+                    @{
+                        List<Pubs.Data.Models.Author> titleAuthors = new List<Pubs.Data.Models.Author>();
+                        if (Model.Titles[i].Authors.Count > 0)
+                        {
+                            titleAuthors = Model.Titles[i].Authors.ToList();
+                        }
+                        List<Pubs.Data.Models.Author> authors = Model.Authors.ToList();
+                        <select id="@string.Format("ddlAuthors-{0}[]", Model.Titles[i].TitleID)" name="@string.Format("ddlAuthors-{0}[]", Model.Titles[i].TitleID)" multiple="multiple" class="multiAuthor">
+                            @for (int y = 0; y < authors.Count; y++)
+                            {
+                                if (titleAuthors.FirstOrDefault(ta => ta.AuthorID == authors[y].AuthorID) == null)
+                                {
+                                    <option value="@authors[y].AuthorID">@authors[y].Name</option>
+                                }
+                                else
+                                {
+                                    <option value="@authors[y].AuthorID" selected="selected">@authors[y].Name</option>
+                                }
+                            }
+                        </select>
+                    }
+                </td>
+                <td>
+                    @Html.TextBoxFor(model => model.Titles[i].PublishDate, "{0:MM/dd/yyyy}", new { @class = "datepicker text-box single-line" })
+                </td>
+            </tr>
+        }
+    </table>
+</div>
+<div class="form-group">
+    <div>
+        <input type="submit" value="Save Changes" class="btn btn-primary" />
+    </div>
+</div>
+}
+
+@section Scripts {
+    <script src="~/Scripts/jquery-ui-1.11.2.js" type="text/javascript"></script>
+    <script src="~/Scripts/bootstrap-multiselect.js" type="text/javascript"></script>
+    <script language="javascript" type="text/javascript">
+        // Initialize application after all scripts are ready
+        $(document).ready(function ($) {
+            $('[data-toggle="popover"]').popover(); // Enable popover
+            $('.datepicker').datepicker(); // Enable datepicker
+            $('.multiAuthor').multiselect({
+                numberDisplayed: 1
+            }); // Enable multi-select
+        });
+    </script>
+}

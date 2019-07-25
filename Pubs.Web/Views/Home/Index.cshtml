@@ -1,0 +1,43 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@using FeatureToggleHtmlHelpers
+@using Pubs.FeatureToggles
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<div class="jumbotron">
+    <h1>BookTrakr</h1>
+    <p class="lead">BookTrakr is a free application for managing titles, their authors, and publishers.</p>
+</div>
+
+<div class="row">
+    <div class="col-md-4">
+        <h2>Authors</h2>
+        <p>Enter and maintain contact information for the authors of your titles.</p>
+        <p>@Html.ActionLink("Maintain Authors", "List", "Author", null, new { @class = "btn btn-default" })</p>
+    </div>
+    <div class="col-md-4">
+        @using (Html.FeatureToggle(new MaintainPublisherFeature()))
+        {
+            <h2>Publishers</h2>
+            <p>Enter and maintain contact information for the publishers of your titles.</p>
+            <p>@Html.ActionLink("Maintain Publishers", "Index", "Publisher", null, new { @class = "btn btn-default" })</p>
+        }
+    </div>
+    <div class="col-md-4">
+        <h2>Titles</h2>
+        <p>Enter and maintain detailed information regarding the titles in your library.</p>
+        <p>@Html.ActionLink("Maintain Titles", "Index", "Title", null, new { @class = "btn btn-default" })</p>
+    </div>
+</div>

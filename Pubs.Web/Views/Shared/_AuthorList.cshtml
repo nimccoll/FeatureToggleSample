@@ -1,0 +1,61 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model IEnumerable<Pubs.Data.Models.Author>
+
+<table class="table table-bordered table-condensed table-striped">
+    <tr>
+        <th>
+            Author
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @item.Name (@item.AuthorID)
+        </td>
+        <td>
+            <button class="select-author btn btn-primary" onclick="selectAuthor(event, '@item.Name (@item.AuthorID)')">Select</button>
+        </td>
+    </tr>
+}
+
+</table>
+<nav>
+    <ul class="pager">
+        <li class="@ViewBag.PreviousClass">
+            @if (((string)ViewBag.PreviousClass).Contains("disabled"))
+            {
+                <a href="javascript:void(0)">Previous</a>
+            }
+            else
+            {
+                <a href="javascript:searchAuthor(@ViewBag.PreviousRow)">Previous</a>
+            }
+        </li>
+        <li class="@ViewBag.NextClass">
+            @if (((string)ViewBag.NextClass).Contains("disabled"))
+            {
+                <a href="javascript:void(0)">Next</a>
+            }
+            else
+            {
+                <a href="javascript:searchAuthor(@ViewBag.NextRow)">Next</a>
+            }
+        </li>
+    </ul>
+
+
+
+</nav>

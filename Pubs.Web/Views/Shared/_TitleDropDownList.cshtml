@@ -1,0 +1,22 @@
+﻿<!--
+//===============================================================================
+// Microsoft Premier Support for Developers
+// FeatureToggle Sample
+//===============================================================================
+// Copyright © Microsoft Corporation.  All rights reserved.
+// THIS CODE AND INFORMATION IS PROVIDED "AS IS" WITHOUT WARRANTY
+// OF ANY KIND, EITHER EXPRESSED OR IMPLIED, INCLUDING BUT NOT
+// LIMITED TO THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+// FITNESS FOR A PARTICULAR PURPOSE.
+//===============================================================================
+-->
+@model List<Pubs.Data.Models.Title>
+
+<label for="ddlTitles">Titles:</label>
+<select id="ddlTitles" name="ddlTitles" multiple="multiple" class="multiTitle">
+    @foreach (Pubs.Data.Models.Title title in Model)
+    {
+        <option value="@title.TitleID">@title.BookTitle</option>
+    }
+</select>
+<input type="submit" id="btnSearchAuthors" class="btn btn-primary" value="Find Authors" />

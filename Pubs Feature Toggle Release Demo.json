@@ -1,0 +1,315 @@
+{
+  "source": 2,
+  "id": 8,
+  "revision": 5,
+  "name": "Pubs Feature Toggle Release Demo",
+  "createdBy": {
+    "id": "1d6264be-b33a-475a-9ee7-eaa0117ce664",
+    "displayName": "Nicholas McCollum",
+    "uniqueName": "nimccoll@microsoft.com",
+    "url": "https://app.vssps.visualstudio.com/Aafe1a0b7-ecab-49da-ad5b-0da2a9f41673/_apis/Identities/1d6264be-b33a-475a-9ee7-eaa0117ce664",
+    "imageUrl": "https://nimccoll.visualstudio.com/_api/_common/identityImage?id=1d6264be-b33a-475a-9ee7-eaa0117ce664"
+  },
+  "createdOn": "2017-03-03T14:30:00.607Z",
+  "modifiedBy": {
+    "id": "1d6264be-b33a-475a-9ee7-eaa0117ce664",
+    "displayName": "Nicholas McCollum",
+    "uniqueName": "nimccoll@microsoft.com",
+    "url": "https://app.vssps.visualstudio.com/Aafe1a0b7-ecab-49da-ad5b-0da2a9f41673/_apis/Identities/1d6264be-b33a-475a-9ee7-eaa0117ce664",
+    "imageUrl": "https://nimccoll.visualstudio.com/_api/_common/identityImage?id=1d6264be-b33a-475a-9ee7-eaa0117ce664"
+  },
+  "modifiedOn": "2017-03-04T18:10:44.637Z",
+  "lastRelease": null,
+  "path": "\\",
+  "variables": {},
+  "variableGroups": [],
+  "environments": [
+    {
+      "id": 10,
+      "name": "Test",
+      "rank": 1,
+      "owner": {
+        "id": "1d6264be-b33a-475a-9ee7-eaa0117ce664",
+        "displayName": "Nicholas McCollum",
+        "uniqueName": "nimccoll@microsoft.com",
+        "url": "https://app.vssps.visualstudio.com/Aafe1a0b7-ecab-49da-ad5b-0da2a9f41673/_apis/Identities/1d6264be-b33a-475a-9ee7-eaa0117ce664",
+        "imageUrl": "https://nimccoll.visualstudio.com/_api/_common/identityImage?id=1d6264be-b33a-475a-9ee7-eaa0117ce664"
+      },
+      "variables": {
+        "AdminLogin": {
+          "value": null,
+          "isSecret": true
+        },
+        "AdminPassword": {
+          "value": null,
+          "isSecret": true
+        },
+        "AddAuthorFeature": { "value": "True" },
+        "MaintainPublisherFeature": { "value": "True" }
+      },
+      "preDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 29
+          }
+        ]
+      },
+      "deployStep": {
+        "tasks": [],
+        "id": 32
+      },
+      "postDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 33
+          }
+        ]
+      },
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "parallelExecution": { "parallelExecutionType": "none" },
+            "skipArtifactsDownload": false,
+            "timeoutInMinutes": 0,
+            "queueId": 1,
+            "demands": [],
+            "enableAccessToken": false,
+            "clean": false,
+            "cleanOptions": "source"
+          },
+          "rank": 1,
+          "phaseType": 1,
+          "name": "Run on agent",
+          "workflowTasks": [
+            {
+              "taskId": "731004d4-1d66-4f70-8c05-638018b22210",
+              "version": "1.*",
+              "name": "Copy files from $(System.DefaultWorkingDirectory)/FeatureToggleDemo/drop/Pubs.Web/obj/Release/Package/PackageTmp",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "inputs": {
+                "SourcePath": "$(System.DefaultWorkingDirectory)/FeatureToggleDemo/drop/Pubs.Web/obj/Release/Package/PackageTmp",
+                "EnvironmentName": "testserver",
+                "AdminUserName": "$(AdminLogin)",
+                "AdminPassword": "$(AdminPassword)",
+                "TargetPath": "\\\\testserver\\wwwroot\\pubs",
+                "CleanTargetBeforeCopy": "false",
+                "CopyFilesInParallel": "true",
+                "AdditionalArguments": "",
+                "ResourceFilteringMethod": "machineNames",
+                "MachineNames": ""
+              }
+            },
+            {
+              "taskId": "4b8ea1ca-9132-4caa-8127-7490130e131f",
+              "version": "2.*",
+              "name": "Tokenization: Transform file web.config",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "inputs": {
+                "SourcePath": "\\\\testserver\\wwwroot\\pubs",
+                "TargetFileNames": "web.config",
+                "RecursiveSearch": "true",
+                "TokenStart": "__",
+                "TokenEnd": "__"
+              }
+            }
+          ]
+        }
+      ],
+      "environmentOptions": {
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0,
+        "enableAccessToken": false,
+        "deploymentAuthorizationOwner": 0
+      },
+      "demands": [],
+      "conditions": [
+        {
+          "name": "ReleaseStarted",
+          "conditionType": 1,
+          "value": ""
+        }
+      ],
+      "executionPolicy": {
+        "concurrencyCount": 0,
+        "queueDepthCount": 0
+      },
+      "schedules": [],
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      }
+    },
+    {
+      "id": 11,
+      "name": "Prod",
+      "rank": 2,
+      "owner": {
+        "id": "1d6264be-b33a-475a-9ee7-eaa0117ce664",
+        "displayName": "Nicholas McCollum",
+        "uniqueName": "nimccoll@microsoft.com",
+        "url": "https://app.vssps.visualstudio.com/Aafe1a0b7-ecab-49da-ad5b-0da2a9f41673/_apis/Identities/1d6264be-b33a-475a-9ee7-eaa0117ce664",
+        "imageUrl": "https://nimccoll.visualstudio.com/_api/_common/identityImage?id=1d6264be-b33a-475a-9ee7-eaa0117ce664"
+      },
+      "variables": {
+        "AdminLogin": { "value": "{your server administrator login here}" },
+        "AdminPassword": { "value": "{your server administrator password here}" },
+        "AddAuthorFeature": { "value": "False" },
+        "MaintainPublisherFeature": { "value": "True" }
+      },
+      "preDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 30
+          }
+        ]
+      },
+      "deployStep": {
+        "tasks": [],
+        "id": 31
+      },
+      "postDeployApprovals": {
+        "approvals": [
+          {
+            "rank": 1,
+            "isAutomated": true,
+            "isNotificationOn": false,
+            "id": 34
+          }
+        ]
+      },
+      "deployPhases": [
+        {
+          "deploymentInput": {
+            "parallelExecution": { "parallelExecutionType": "none" },
+            "skipArtifactsDownload": false,
+            "timeoutInMinutes": 0,
+            "queueId": 1,
+            "demands": [],
+            "enableAccessToken": false,
+            "clean": false,
+            "cleanOptions": "source"
+          },
+          "rank": 1,
+          "phaseType": 1,
+          "name": "Run on agent",
+          "workflowTasks": [
+            {
+              "taskId": "731004d4-1d66-4f70-8c05-638018b22210",
+              "version": "1.*",
+              "name": "Copy files from $(System.DefaultWorkingDirectory)/FeatureToggleDemo/drop/Pubs.Web/obj/Release/Package/PackageTmp",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "inputs": {
+                "SourcePath": "$(System.DefaultWorkingDirectory)/FeatureToggleDemo/drop/Pubs.Web/obj/Release/Package/PackageTmp",
+                "EnvironmentName": "prodserver",
+                "AdminUserName": "$(AdminLogin)",
+                "AdminPassword": "$(AdminPassword)",
+                "TargetPath": "\\\\prodserver\\wwwroot\\pubs",
+                "CleanTargetBeforeCopy": "false",
+                "CopyFilesInParallel": "true",
+                "AdditionalArguments": "",
+                "ResourceFilteringMethod": "machineNames",
+                "MachineNames": ""
+              }
+            },
+            {
+              "taskId": "4b8ea1ca-9132-4caa-8127-7490130e131f",
+              "version": "2.*",
+              "name": "Tokenization: Transform file web.config",
+              "enabled": true,
+              "alwaysRun": false,
+              "continueOnError": false,
+              "timeoutInMinutes": 0,
+              "definitionType": "task",
+              "inputs": {
+                "SourcePath": "\\\\prodserver\\wwwroot\\pubs",
+                "TargetFileNames": "web.config",
+                "RecursiveSearch": "true",
+                "TokenStart": "__",
+                "TokenEnd": "__"
+              }
+            }
+          ]
+        }
+      ],
+      "environmentOptions": {
+        "emailNotificationType": "OnlyOnFailure",
+        "emailRecipients": "release.environment.owner;release.creator",
+        "skipArtifactsDownload": false,
+        "timeoutInMinutes": 0,
+        "enableAccessToken": false,
+        "deploymentAuthorizationOwner": 0
+      },
+      "demands": [],
+      "conditions": [],
+      "executionPolicy": {
+        "concurrencyCount": 0,
+        "queueDepthCount": 0
+      },
+      "schedules": [],
+      "retentionPolicy": {
+        "daysToKeep": 30,
+        "releasesToKeep": 3,
+        "retainBuild": true
+      }
+    }
+  ],
+  "artifacts": [
+    {
+      "sourceId": "ee66e927-93f4-4756-8923-cd0720a7d92a:7",
+      "type": "Build",
+      "alias": "FeatureToggleDemo",
+      "definitionReference": {
+        "artifactSourceDefinitionUrl": {
+          "id": "https://nimccoll.visualstudio.com/_permalink/_build/index?collectionId=922014e8-319b-4266-998e-4f09e972a5ce&projectId=ee66e927-93f4-4756-8923-cd0720a7d92a&definitionId=7",
+          "name": ""
+        },
+        "defaultVersionType": {
+          "id": "latestType",
+          "name": "Latest"
+        },
+        "definition": {
+          "id": "7",
+          "name": "FeatureToggleDemo"
+        },
+        "project": {
+          "id": "ee66e927-93f4-4756-8923-cd0720a7d92a",
+          "name": "GitDemo"
+        }
+      },
+      "isPrimary": true
+    }
+  ],
+  "triggers": [],
+  "releaseNameFormat": "Release-$(rev:r)",
+  "retentionPolicy": null,
+  "url": "https://nimccoll.vsrm.visualstudio.com/ee66e927-93f4-4756-8923-cd0720a7d92a/_apis/Release/definitions/8",
+  "_links": {
+    "self": { "href": "https://nimccoll.vsrm.visualstudio.com/ee66e927-93f4-4756-8923-cd0720a7d92a/_apis/Release/definitions/8" },
+    "web": { "href": "https://nimccoll.visualstudio.com/ee66e927-93f4-4756-8923-cd0720a7d92a/_apps/hub/ms.vss-releaseManagement-web.hub-explorer?definitionId=8" }
+  },
+  "tags": []
+}
